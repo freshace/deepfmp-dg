@@ -1,4 +1,4 @@
-# DeepFMP-DG 开源仓库实现计划
+﻿# DeepFMP-DG 开源仓库实现计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -302,7 +302,7 @@ def test_build_merchant_text_handles_empty_description():
 
 
 def test_clean_review_text():
-    assert clean_review_text("Too short") is None
+    assert clean_review_text("Hi") is None
     assert clean_review_text("&#34;hi&#34; there") == '"hi" there'
 ```
 
@@ -2908,4 +2908,5 @@ git commit -m "ci: add pytest and ruff workflow"
 3. **Task 12 build_sample_data.py**：顶部 imports 补充 `import shutil`。
 4. **任务顺序依赖**：Task 12 依赖 Task 1-11 全部完成（包可安装、可训练）；Task 13 的 README 顶部 CI badge 使用 `your-name` 占位，推送到 GitHub 前替换为实际 owner。
 5. **首次 predict 联网**：SigLIP 权重首次需从 Hugging Face 下载；CI 只跑不依赖网络的单元测试，Demo/predict 由用户本地执行。
+
 
