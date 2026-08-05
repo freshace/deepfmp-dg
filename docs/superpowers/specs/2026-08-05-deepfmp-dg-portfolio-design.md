@@ -1,4 +1,4 @@
-﻿# DeepFMP-DG 开源 GitHub 项目设计文档
+# DeepFMP-DG 开源 GitHub 项目设计文档
 
 > 日期：2026-08-05
 > 状态：已与用户确认（用户批准：双语 README / 样例含少量真实商品图并注明仅供演示 / 命名 deepfmp-dg 并说明对 DeepFMP 的参考 / 仓库内容去求职化，亮点与功能隐式体现能力）
