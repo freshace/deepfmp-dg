@@ -4,7 +4,7 @@
 
 DeepFMP-DG quantifies how far a product's *seller-side presentation* (display image, description, price) diverges from the *buyer-side experience* (real photo, review text), predicts low-rating risk, and explains *why* with an interpretable diagnosis.
 
-[![CI](https://github.com/your-name/deepfmp-dg/actions/workflows/ci.yml/badge.svg)](https://github.com/your-name/deepfmp-dg/actions/workflows/ci.yml)
+[![CI](https://github.com/freshace/deepfmp-dg/actions/workflows/ci.yml/badge.svg)](https://github.com/freshace/deepfmp-dg/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 

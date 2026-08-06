@@ -4,7 +4,7 @@
 
 DeepFMP-DG 量化商品的“卖家宣传侧”（展示图、描述、价格）与“买家体验侧”（实拍图、评论文本）之间的偏差，预测低评分风险，并通过可解释诊断说明风险来源。
 
-[![CI](https://github.com/your-name/deepfmp-dg/actions/workflows/ci.yml/badge.svg)](https://github.com/your-name/deepfmp-dg/actions/workflows/ci.yml)
+[![CI](https://github.com/freshace/deepfmp-dg/actions/workflows/ci.yml/badge.svg)](https://github.com/freshace/deepfmp-dg/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
