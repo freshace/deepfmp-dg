@@ -21,3 +21,5 @@ models/
 .superpowers/
 pytest-of-*/
 pytest-*/
+dist_space/
+
