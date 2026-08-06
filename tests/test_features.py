@@ -77,3 +77,9 @@ def test_select_features_fills_missing():
     X = select_features(out)
     assert X.shape == (1, len(FEATURE_COLUMNS))
     assert np.all(np.isfinite(X))
+
+
+def test_extract_text_features_chinese():
+    f = extract_text_features("这个东西太差了，垃圾，给差评")
+    assert f["review_neg_word_count"] >= 2
+    assert f["review_sentiment_diff"] < 0

@@ -1,4 +1,3 @@
-import numpy as np
 
 from deepfmp_dg.diagnose import (
     build_recommendations,
@@ -50,3 +49,11 @@ def test_build_recommendations_low_risk_with_cause():
     recs = build_recommendations("低", ["货不对板型（视觉差异显著）"])
     assert any("核实" in r for r in recs)
     assert not any("标杆" in r for r in recs)
+
+
+def test_detect_explicit_negative_markers():
+    from deepfmp_dg.diagnose import detect_explicit_negative_markers
+
+    assert "差评" in detect_explicit_negative_markers("我要给差评")
+    assert "waste" in detect_explicit_negative_markers("complete waste of money")
+    assert detect_explicit_negative_markers("很好用") == []

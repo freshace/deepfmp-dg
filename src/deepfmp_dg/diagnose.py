@@ -71,6 +71,22 @@ def identify_root_causes(
     return causes or ["信息不足型（需人工复核）"]
 
 
+EXPLICIT_NEGATIVE_MARKERS = (
+    "差评", "一星", "1星", "给一星", "退货", "退款", "再也不买",
+    "垃圾", "太差", "差劲", "后悔", "难用",
+    "waste", "refund", "return", "one star", "1 star",
+    "terrible", "awful", "horrible", "disappointed",
+)
+
+
+def detect_explicit_negative_markers(text: object) -> list[str]:
+    """Return explicit negative-review markers found in the text."""
+    if not isinstance(text, str):
+        return []
+    low = text.lower()
+    return [m for m in EXPLICIT_NEGATIVE_MARKERS if m in low]
+
+
 def build_recommendations(level: str, causes: list[str]) -> list[str]:
     """Prioritized prescription templates (P0-P3)."""
     cause_text = "、".join(causes) if causes else "待复核"

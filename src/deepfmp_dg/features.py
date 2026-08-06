@@ -21,6 +21,17 @@ POSITIVE_WORDS = {
     "best", "outstanding", "superb", "impressed",
 }
 
+CHINESE_NEGATIVE_WORDS = {
+    "差评", "垃圾", "退货", "退款", "太差", "很差", "差劲", "糟糕",
+    "失望", "后悔", "再也不买", "烂", "难看", "不值", "假货", "欺骗",
+    "一星", "1星", "讨厌", "难用",
+}
+
+CHINESE_POSITIVE_WORDS = {
+    "好评", "喜欢", "满意", "完美", "不错", "好用", "超值", "推荐",
+    "很棒", "很喜欢", "质量好", "舒服", "好看",
+}
+
 DELTA_FEATURES = ["delta_cosine", "delta_euclidean"]
 PRICE_FEATURES = ["P_rank", "delta_x_price_rank"]
 TEXT_FEATURES = [
@@ -50,15 +61,19 @@ def extract_text_features(text: object) -> dict:
     clean = clean.replace("&#34;", '"').replace("&amp;", "&")
     words = clean.lower().split()
     word_set = set(words)
+    neg_cn = sum(1 for w in CHINESE_NEGATIVE_WORDS if w in clean)
+    pos_cn = sum(1 for w in CHINESE_POSITIVE_WORDS if w in clean)
+    neg_count = len(word_set & NEGATIVE_WORDS) + neg_cn
+    pos_count = len(word_set & POSITIVE_WORDS) + pos_cn
     return {
         "review_length": len(clean),
         "review_word_count": len(words),
         "review_exclamation_count": clean.count("!"),
         "review_question_count": clean.count("?"),
         "review_upper_ratio": sum(1 for c in clean if c.isupper()) / max(len(clean), 1),
-        "review_neg_word_count": len(word_set & NEGATIVE_WORDS),
-        "review_pos_word_count": len(word_set & POSITIVE_WORDS),
-        "review_sentiment_diff": len(word_set & POSITIVE_WORDS) - len(word_set & NEGATIVE_WORDS),
+        "review_neg_word_count": neg_count,
+        "review_pos_word_count": pos_count,
+        "review_sentiment_diff": pos_count - neg_count,
     }
 
 

@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from deepfmp_dg.diagnose import diagnose_item
+from deepfmp_dg.diagnose import detect_explicit_negative_markers, diagnose_item
 from deepfmp_dg.explain import FEATURE_NAME_MAP, top_shap_features, tree_shap_values
 from deepfmp_dg.features import build_features, select_features
 from deepfmp_dg.models import create_model
@@ -100,6 +100,16 @@ class InferenceEngine:
         shap_row = tree_shap_values(self.rf, x_scaled)[0]
         top = top_shap_features(shap_row, self.feature_names, k=5)
         diagnosis = diagnose_item(scores, prob, top)
+        markers = detect_explicit_negative_markers(review)
+        rule_override = False
+        adjusted_prob = prob
+        if markers:
+            rule_override = True
+            adjusted_prob = max(prob, 0.55)
+            diagnosis = diagnose_item(scores, adjusted_prob, top)
+            diagnosis["diagnosis"] = ["明确负面反馈型（评论直接表达差评意愿）"] + [
+                c for c in diagnosis["diagnosis"] if not c.startswith("明确负面反馈")
+            ]
         top_shap = [
             {
                 "feature": name,
@@ -110,7 +120,17 @@ class InferenceEngine:
         ]
         return {
             "scores": scores,
-            **diagnosis,
+            "risk_probability": float(prob),
+            "risk_probability_adjusted": float(adjusted_prob) if rule_override else None,
+            "risk_level": diagnosis["risk_level"],
+            "rule_override": rule_override,
+            "rule_note": (
+                "检测到明确负面反馈标记，已按规则上调风险并重新生成建议"
+                if rule_override
+                else None
+            ),
+            "diagnosis": diagnosis["diagnosis"],
+            "recommendations": diagnosis["recommendations"],
             "top_shap": top_shap,
             "delta_cosine": delta_cosine,
             "delta_euclidean": delta_euclidean,

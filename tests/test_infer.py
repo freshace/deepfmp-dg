@@ -64,3 +64,14 @@ def test_predict_requires_valid_review(tmp_path):
         raise AssertionError("expected ValueError")
     except ValueError:
         pass
+
+
+def test_predict_rule_override_on_explicit_negative(tmp_path):
+    engine = InferenceEngine(_make_model_dir(tmp_path), encoder=FakeEncoder(), emb_dim=8)
+    result = engine.predict(
+        "seller.jpg", "buyer.jpg", "T", "D",
+        "这个东西太差了，我要给差评", 10.0,
+    )
+    assert result["rule_override"] is True
+    assert result["risk_probability_adjusted"] >= 0.55
+    assert any("明确负面反馈" in c for c in result["diagnosis"])

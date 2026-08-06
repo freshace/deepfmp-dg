@@ -18,10 +18,9 @@ def get_engine() -> InferenceEngine:
 
 def save_upload(uploaded) -> str:
     suffix = Path(uploaded.name).suffix or ".jpg"
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    tmp.write(uploaded.getbuffer())
-    tmp.close()
-    return tmp.name
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        tmp.write(uploaded.getbuffer())
+        return tmp.name
 
 
 def main() -> None:
@@ -36,6 +35,8 @@ def main() -> None:
     title = st.text_input("商品标题")
     description = st.text_area("商品描述")
     review = st.text_area("买家评论")
+    if review and any("\u4e00" <= ch <= "\u9fff" for ch in review):
+        st.info("检测到中文输入：模型基于英文评论训练，已启用中文情感词典与规则修正，结果仅供参考")
     price = st.number_input("价格（可选）", min_value=0.0, value=None, step=1.0)
 
     if st.button("开始诊断", type="primary"):
@@ -63,7 +64,11 @@ def main() -> None:
         c1.metric("Score1 图-图", f"{scores['score1']:.3f}")
         c2.metric("Score2 文-图", f"{scores['score2']:.3f}")
         c3.metric("Score3 文-文", f"{scores['score3']:.3f}")
-        st.metric("低评分风险概率", f"{result['risk_probability']:.3f}", result["risk_level"])
+        if result.get("rule_override"):
+            st.metric("低评分风险概率（含规则修正）", f"{result['risk_probability_adjusted']:.3f}", result["risk_level"])
+            st.caption(f"模型原始概率 {result['risk_probability']:.3f}；{result['rule_note']}")
+        else:
+            st.metric("低评分风险概率", f"{result['risk_probability']:.3f}", result["risk_level"])
         st.subheader("根因诊断")
         for d in result["diagnosis"]:
             st.write(f"- {d}")
@@ -84,3 +89,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

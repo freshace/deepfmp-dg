@@ -31,4 +31,5 @@
 - Small sample, single category (Fashion), English Amazon data.
 - The label is a proxy for expectation mismatch (low rating), not a direct measurement.
 - Diagnosis rules are heuristic thresholds (documented in `diagnose.py`); use for triage, not automated enforcement.
+- The demo adds a bilingual (EN/中文) sentiment lexicon and an explicit-negative-marker rule override; the research model itself is trained on English reviews.
 - Sample images are public product photos for demonstration only.
