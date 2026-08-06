@@ -50,7 +50,7 @@ python -m deepfmp_dg.cli demo
 Open `http://127.0.0.1:7860`, upload a seller display image and a buyer photo, and inspect the three scores, risk level, SHAP attribution, and prescriptions.
 ## Online demo
 
-Try the model live: [deepfmp-dg.streamlit.app](https://deepfmp-dg.streamlit.app) ? deployed with Streamlit Community Cloud. The first load downloads the SigLIP backbone, so please be patient on the first visit.
+Try the model live: [deepfmp-dg.streamlit.app](https://deepfmp-dg-hxnj4icps7d5uzgmwwsrr3.streamlit.app/) ? deployed with Streamlit Community Cloud. The first load downloads the SigLIP backbone, so please be patient on the first visit.
 
 See [docs/streamlit-deploy.md](docs/streamlit-deploy.md) for how this app is deployed.
 
