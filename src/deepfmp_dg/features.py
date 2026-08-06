@@ -94,30 +94,33 @@ def build_features(df: pd.DataFrame, image_root: Optional[Path] = None) -> pd.Da
     """
     out = df.copy()
 
-    text_feats = out["review_text"].apply(extract_text_features).apply(pd.Series)
-    title_feats = out["title"].apply(extract_title_features).apply(pd.Series)
-    out = pd.concat([out, text_feats, title_feats], axis=1)
+    if "review_sentiment_diff" not in out.columns:
+        text_feats = out["review_text"].apply(extract_text_features).apply(pd.Series)
+        title_feats = out["title"].apply(extract_title_features).apply(pd.Series)
+        out = pd.concat([out, text_feats, title_feats], axis=1)
 
     if "P_rank" not in out.columns:
         out["P_rank"] = minmax_rank(out["price"])
 
-    if "seller_image_path" in out.columns:
-        out["seller_img_kb"] = out["seller_image_path"].apply(
-            lambda v: img_size_kb(v, image_root)
-        )
-        out["buyer_img_kb"] = out["buyer_image_path"].apply(
-            lambda v: img_size_kb(v, image_root)
-        )
-        out["img_kb_diff"] = out["seller_img_kb"] - out["buyer_img_kb"]
-        out["img_kb_ratio"] = out["seller_img_kb"] / out["buyer_img_kb"].replace(0, np.nan)
-    else:
-        out["img_kb_diff"] = np.nan
-        out["img_kb_ratio"] = np.nan
+    if "img_kb_diff" not in out.columns:
+        if "seller_image_path" in out.columns:
+            out["seller_img_kb"] = out["seller_image_path"].apply(
+                lambda v: img_size_kb(v, image_root)
+            )
+            out["buyer_img_kb"] = out["buyer_image_path"].apply(
+                lambda v: img_size_kb(v, image_root)
+            )
+            out["img_kb_diff"] = out["seller_img_kb"] - out["buyer_img_kb"]
+            out["img_kb_ratio"] = out["seller_img_kb"] / out["buyer_img_kb"].replace(0, np.nan)
+        else:
+            out["img_kb_diff"] = np.nan
+            out["img_kb_ratio"] = np.nan
 
-    out["delta_x_review_length"] = out["delta_cosine"] * out["review_word_count"]
-    out["delta_x_negation"] = out["delta_cosine"] * out["review_neg_word_count"]
-    out["delta_x_price_rank"] = out["delta_cosine"] * out["P_rank"]
-    out["log_review_length"] = np.log1p(out["review_word_count"])
+    if "delta_x_review_length" not in out.columns:
+        out["delta_x_review_length"] = out["delta_cosine"] * out["review_word_count"]
+        out["delta_x_negation"] = out["delta_cosine"] * out["review_neg_word_count"]
+        out["delta_x_price_rank"] = out["delta_cosine"] * out["P_rank"]
+        out["log_review_length"] = np.log1p(out["review_word_count"])
 
     return out
 
@@ -128,3 +131,4 @@ def select_features(df: pd.DataFrame, fill_value: float = 0.0) -> np.ndarray:
     if missing:
         raise ValueError(f"Missing feature columns: {missing}")
     return df[FEATURE_COLUMNS].fillna(fill_value).values.astype(np.float32)
+

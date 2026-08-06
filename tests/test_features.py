@@ -47,6 +47,22 @@ def test_build_features_creates_all_columns():
     assert out["delta_x_price_rank"].iloc[0] == 0.3 * out["P_rank"].iloc[0]
 
 
+def test_build_features_is_idempotent():
+    df = pd.DataFrame(
+        {
+            "review_text": ["Great dress, love it!", "Terrible quality, broke in a day"],
+            "title": ["Summer Dress", "Winter Coat"],
+            "delta_cosine": [0.3, 0.7],
+            "delta_euclidean": [5.0, 9.0],
+            "price": [25.0, 80.0],
+        }
+    )
+    once = build_features(df)
+    twice = build_features(once)
+    assert len(twice.columns) == len(once.columns)
+    np.testing.assert_allclose(select_features(once), select_features(twice), atol=1e-6)
+
+
 def test_select_features_fills_missing():
     df = pd.DataFrame(
         {

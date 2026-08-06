@@ -1,4 +1,4 @@
-"""Command-line interface for deepfmp-dg."""
+﻿"""Command-line interface for deepfmp-dg."""
 from __future__ import annotations
 
 import argparse
@@ -121,7 +121,7 @@ def cmd_train(args) -> int:
 
     rf = RandomForestClassifier(
         n_estimators=300, max_depth=8, min_samples_leaf=5,
-        class_weight="balanced", random_state=args.seed, n_jobs=-1,
+        class_weight="balanced", random_state=args.seed, n_jobs=1,
     )
     rf.fit(x_scaled, y)
     joblib.dump(rf, args.out / "rf.joblib")
@@ -173,3 +173,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

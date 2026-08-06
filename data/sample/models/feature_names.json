@@ -1,0 +1,1 @@
+["delta_cosine", "delta_euclidean", "P_rank", "delta_x_price_rank", "review_sentiment_diff", "review_neg_word_count", "review_pos_word_count", "review_exclamation_count", "review_word_count", "review_upper_ratio", "title_word_count", "delta_x_review_length", "delta_x_negation", "log_review_length", "img_kb_diff", "img_kb_ratio"]
