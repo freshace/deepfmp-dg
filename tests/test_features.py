@@ -83,3 +83,9 @@ def test_extract_text_features_chinese():
     f = extract_text_features("这个东西太差了，垃圾，给差评")
     assert f["review_neg_word_count"] >= 2
     assert f["review_sentiment_diff"] < 0
+
+
+def test_extract_text_features_chinese_more_phrases():
+    f = extract_text_features("质量太差了，不推荐，尺码不对")
+    assert f["review_neg_word_count"] >= 3
+    assert f["review_sentiment_diff"] < 0

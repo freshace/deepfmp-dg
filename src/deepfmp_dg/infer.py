@@ -105,7 +105,7 @@ class InferenceEngine:
         adjusted_prob = prob
         if markers:
             rule_override = True
-            adjusted_prob = max(prob, 0.55)
+            adjusted_prob = max(prob, min(0.7, 0.45 + 0.1 * min(len(markers), 3)))
             diagnosis = diagnose_item(scores, adjusted_prob, top)
             diagnosis["diagnosis"] = ["明确负面反馈型（评论直接表达差评意愿）"] + [
                 c for c in diagnosis["diagnosis"] if not c.startswith("明确负面反馈")

@@ -55,5 +55,6 @@ def test_detect_explicit_negative_markers():
     from deepfmp_dg.diagnose import detect_explicit_negative_markers
 
     assert "差评" in detect_explicit_negative_markers("我要给差评")
+    assert "不推荐" in detect_explicit_negative_markers("质量太差，不推荐")
     assert "waste" in detect_explicit_negative_markers("complete waste of money")
     assert detect_explicit_negative_markers("很好用") == []

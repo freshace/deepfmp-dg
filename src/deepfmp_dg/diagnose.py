@@ -74,6 +74,8 @@ def identify_root_causes(
 EXPLICIT_NEGATIVE_MARKERS = (
     "差评", "一星", "1星", "给一星", "退货", "退款", "再也不买",
     "垃圾", "太差", "差劲", "后悔", "难用",
+    "质量差", "质量不好", "质量不行", "尺码不对", "色差", "发货慢",
+    "不推荐", "别买", "态度差", "浪费钱", "骗人", "假的",
     "waste", "refund", "return", "one star", "1 star",
     "terrible", "awful", "horrible", "disappointed",
 )
