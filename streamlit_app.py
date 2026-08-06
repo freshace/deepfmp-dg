@@ -68,12 +68,15 @@ def main() -> None:
         for d in result["diagnosis"]:
             st.write(f"- {d}")
         st.subheader("Top-SHAP 特征")
-        st.dataframe(
-            [
-                {"特征": t["display_name"], "SHAP 值": round(t["value"], 4)}
-                for t in result["top_shap"]
-            ]
-        )
+        if result["top_shap"]:
+            st.dataframe(
+                [
+                    {"特征": t["display_name"], "SHAP 值": round(t["value"], 4)}
+                    for t in result["top_shap"]
+                ]
+            )
+        else:
+            st.caption("暂无 SHAP 归因")
         st.subheader("分级建议")
         for r in result["recommendations"]:
             st.write(f"- {r}")

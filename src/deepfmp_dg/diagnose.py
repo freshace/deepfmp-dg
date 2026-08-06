@@ -6,6 +6,8 @@ import numpy as np
 RISK_LEVELS = ["极低", "低", "中", "高", "极高"]
 RISK_THRESHOLDS = [0.2, 0.4, 0.6, 0.8]
 
+RISK_CAUSE_PREFIXES = ("货不对板", "夸大宣传", "信息不对称", "价格错配", "体验不佳")
+
 RETURN_RATE_WEIGHTS = {
     "negative": 0.35,
     "rating": 0.25,
@@ -83,6 +85,12 @@ def build_recommendations(level: str, causes: list[str]) -> list[str]:
         return [
             "P1: 将该商品纳入重点监控，跟踪评论与退货动态",
             f"P2: 针对根因（{cause_text}）提示卖家优化信息展示",
+        ]
+    substantive = [c for c in causes if c.startswith(RISK_CAUSE_PREFIXES)]
+    if substantive:
+        return [
+            f"P1: 风险概率较低，但检测到{substantive[0]}信号，建议核实商品信息与实拍一致性",
+            "P2: 持续监控评论与退货动态，若信号增强则升级处置",
         ]
     return [
         "P1: 维持当前信息展示水平，作为同品类标杆参考",

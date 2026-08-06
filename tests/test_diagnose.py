@@ -1,3 +1,4 @@
+import numpy as np
 
 from deepfmp_dg.diagnose import (
     build_recommendations,
@@ -43,3 +44,9 @@ def test_diagnose_item_output_shape():
 def test_build_recommendations_high_risk():
     recs = build_recommendations("高", ["货不对板型（视觉差异显著）"])
     assert any(r.startswith("P0") for r in recs)
+
+
+def test_build_recommendations_low_risk_with_cause():
+    recs = build_recommendations("低", ["货不对板型（视觉差异显著）"])
+    assert any("核实" in r for r in recs)
+    assert not any("标杆" in r for r in recs)
