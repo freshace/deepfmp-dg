@@ -1,6 +1,6 @@
 # Deploying the Interactive Demo to Hugging Face Spaces
 
-The Gradio demo can run for free on [Hugging Face Spaces](https://huggingface.co/spaces) and gives the project an always-on "try it" link.
+The Gradio demo can run on [Hugging Face Spaces](https://huggingface.co/spaces). Note: hosting Gradio Spaces now requires a Hugging Face PRO subscription (free accounts can only host static Spaces) ? see `docs/streamlit-deploy.md` for the free alternative.
 
 ## One-time setup
 
