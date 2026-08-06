@@ -3,13 +3,12 @@ from __future__ import annotations
 
 import random
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import torch
-import torch.nn as nn
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.model_selection import StratifiedKFold
+from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
 from deepfmp_dg.evaluate import safe_ap, safe_auc
@@ -154,7 +153,7 @@ def run_experiment(
     n_align: int = 3,
     epochs: int = 200,
     patience: int = 30,
-) -> Optional[dict]:
+) -> dict | None:
     """Run stratified K-fold CV and return aggregated metrics."""
     min_class = min(np.sum(y == 0), np.sum(y == 1))
     n_splits = min(n_splits, min_class)
@@ -184,7 +183,7 @@ def run_experiment(
 
     return {
         "model": model_name,
-        "n": int(len(y)),
+        "n": len(y),
         "positive": int(y.sum()),
         "auc_cv": safe_auc(y, all_prob),
         "ap_cv": safe_ap(y, all_prob),

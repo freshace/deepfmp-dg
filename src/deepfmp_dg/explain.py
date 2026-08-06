@@ -2,9 +2,8 @@
 from __future__ import annotations
 
 import numpy as np
-import torch
-
 import shap
+import torch
 
 FEATURE_NAME_MAP = {
     "review_sentiment_diff": "评论情感差异",

@@ -3,13 +3,13 @@ import sys
 
 import pytest
 
-from deepfmp_dg.cli import build_parser, main
+from deepfmp_dg.cli import build_parser
 
 
 def test_version_flag():
     out = subprocess.run(
         [sys.executable, "-m", "deepfmp_dg.cli", "--version"],
-        capture_output=True, text=True,
+        capture_output=True, text=True, check=False,
     )
     assert out.returncode == 0
     assert "0.1.0" in out.stdout
@@ -26,3 +26,4 @@ def test_parser_predict_args():
     ])
     assert args.command == "predict"
     assert args.seller_img == "s.jpg"
+

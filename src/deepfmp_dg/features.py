@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -77,7 +76,7 @@ def minmax_rank(series: pd.Series) -> pd.Series:
     return numeric.rank(method="average", pct=True)
 
 
-def img_size_kb(path_value: object, image_root: Optional[Path]) -> float:
+def img_size_kb(path_value: object, image_root: Path | None) -> float:
     if not isinstance(path_value, str) or image_root is None:
         return np.nan
     p = image_root / path_value
@@ -86,7 +85,7 @@ def img_size_kb(path_value: object, image_root: Optional[Path]) -> float:
     return np.nan
 
 
-def build_features(df: pd.DataFrame, image_root: Optional[Path] = None) -> pd.DataFrame:
+def build_features(df: pd.DataFrame, image_root: Path | None = None) -> pd.DataFrame:
     """Add all 16 modeling features to a copy of ``df``.
 
     Required input columns: review_text, title, delta_cosine, delta_euclidean, price.

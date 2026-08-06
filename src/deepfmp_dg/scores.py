@@ -7,7 +7,6 @@ Score3 (text-text): merchant description vs buyer review text.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
 import torch
@@ -17,7 +16,7 @@ from transformers import AutoImageProcessor, AutoModel, AutoTokenizer
 SIGLIP_MODEL_ID = "google/siglip-base-patch16-224"
 EMBEDDING_DIM = 768
 
-PathLike = Union[str, Path]
+PathLike = str | Path
 
 
 def l2_normalize(x: np.ndarray) -> np.ndarray:
@@ -42,7 +41,7 @@ def _extract_embedding(outputs) -> np.ndarray:
 class SigLIPEncoder:
     """Lazy-loads the SigLIP model and encodes images and short texts."""
 
-    def __init__(self, model_id: str = SIGLIP_MODEL_ID, device: Optional[str] = None) -> None:
+    def __init__(self, model_id: str = SIGLIP_MODEL_ID, device: str | None = None) -> None:
         self.model_id = model_id
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self._image_processor = None
@@ -82,7 +81,7 @@ class SigLIPEncoder:
         return _extract_embedding(outputs)
 
 
-def build_merchant_text(title: Optional[str], description: Optional[str]) -> Optional[str]:
+def build_merchant_text(title: str | None, description: str | None) -> str | None:
     title_txt = str(title or "").strip()
     desc_txt = str(description or "").strip()
     if desc_txt in ("[]", "", "nan", "None"):
@@ -90,7 +89,7 @@ def build_merchant_text(title: Optional[str], description: Optional[str]) -> Opt
     return f"{title_txt}. {desc_txt}" if title_txt else desc_txt
 
 
-def clean_review_text(text: Optional[str]) -> Optional[str]:
+def clean_review_text(text: str | None) -> str | None:
     if not isinstance(text, str) or len(text.strip()) < 5:
         return None
     return text.replace("&#34;", '"').replace("&amp;", "&").strip()[:512]
@@ -127,3 +126,4 @@ def pair_scores(
         review_emb.reshape(1, -1),
     )[0]
     return {"score1": float(feats[0]), "score2": float(feats[1]), "score3": float(feats[2])}
+

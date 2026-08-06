@@ -26,7 +26,7 @@ def test_train_model_runs_and_returns_prob():
     seller, buyer, align, tab, y = _make_data()
     train_idx = np.arange(48)
     val_idx = np.arange(48, 64)
-    prob, best_auc, info, state, model = train_model(
+    prob, best_auc, _info, state, _model = train_model(
         "direct", seller, buyer, align, tab, y, train_idx, val_idx,
         epochs=3, patience=2,
     )
@@ -46,3 +46,4 @@ def test_run_experiment_returns_metrics():
                 "precision_cv", "recall_cv", "accuracy_cv", "y", "prob"]:
         assert key in res
     assert res["n"] == 64
+

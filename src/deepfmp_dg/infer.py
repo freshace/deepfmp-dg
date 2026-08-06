@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Optional
 
 import joblib
 import numpy as np
@@ -20,7 +19,6 @@ from deepfmp_dg.scores import (
     clean_review_text,
     pair_scores,
 )
-from deepfmp_dg.train import load_checkpoint
 
 PathLike = str | Path
 
@@ -33,7 +31,7 @@ class InferenceEngine:
     def __init__(
         self,
         model_dir: PathLike = DEFAULT_MODEL_DIR,
-        encoder: Optional[SigLIPEncoder] = None,
+        encoder: SigLIPEncoder | None = None,
         emb_dim: int = 768,
     ) -> None:
         self.model_dir = Path(model_dir)
@@ -60,7 +58,7 @@ class InferenceEngine:
         title: str,
         description: str,
         review_text: str,
-        price: Optional[float] = None,
+        price: float | None = None,
     ) -> dict:
         merchant_text = build_merchant_text(title, description)
         if merchant_text is None:

@@ -1,4 +1,4 @@
-﻿"""Build the small committed sample dataset from the full research data.
+"""Build the small committed sample dataset from the full research data.
 
 Usage:
     python scripts/build_sample_data.py --source "<research-data-root>" --out data/sample
@@ -37,12 +37,10 @@ def main() -> None:
 
     data_dir = args.source / "数据集" / "data" / "processed"
     images_root = args.source / "数据集"
-    models_dir = args.source / "训练模型" / "models"
 
     df = pd.read_csv(data_dir / "modeling_table_enhanced_4934.csv")
     visual_emb = np.load(data_dir / "siglip_embeddings_4934.npz")
     visual_meta = pd.read_csv(data_dir / "siglip_meta_4934.csv")
-    score2_emb = np.load(data_dir / "score2_embeddings_4934.npz")
     score2_csv = pd.read_csv(data_dir / "score2_text_image_4934.csv")
     score3_emb = np.load(data_dir / "score3_embeddings_4934.npz")
     score3_csv = pd.read_csv(data_dir / "score3_text_text_4934.csv")
@@ -54,11 +52,9 @@ def main() -> None:
     common = np.intersect1d(np.intersect1d(visual_indices, score2_indices), score3_indices)
 
     v_map = {idx: i for i, idx in enumerate(visual_indices)}
-    s2_map = {idx: i for i, idx in enumerate(score2_indices)}
     s3_map = {idx: i for i, idx in enumerate(score3_indices)}
 
     v_idx = np.array([v_map[idx] for idx in common])
-    s2_idx = np.array([s2_map[idx] for idx in common])
     s3_idx = np.array([s3_map[idx] for idx in common])
 
     seller = np.asarray(visual_emb["seller_embs"][v_idx], dtype=np.float32)
@@ -158,5 +154,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 

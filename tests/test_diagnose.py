@@ -1,4 +1,3 @@
-import numpy as np
 
 from deepfmp_dg.diagnose import (
     build_recommendations,

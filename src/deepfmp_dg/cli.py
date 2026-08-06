@@ -1,4 +1,4 @@
-﻿"""Command-line interface for deepfmp-dg."""
+"""Command-line interface for deepfmp-dg."""
 from __future__ import annotations
 
 import argparse
